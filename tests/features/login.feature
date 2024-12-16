@@ -10,20 +10,19 @@ Feature: login
     Scenario: login with valid credentials
         When user 'admin' logs in with following credentials
             | email           | password    |
-            | admin@gmail.com | admin123456 |
+            | admin@admin.com | admin123456 |
         Then user 'admin' should be navigated to admin panel dashboard
 
 
     Scenario Outline: login with invalid credentials
-        When the user tries to log in with following credentials
+        When user 'admin' tries to log in with following credentials
             | email   | password   |
             | <email> | <password> |
-        Then error message "<errroMessage>" should be shown
+        Then error message "<errorMessage>" should be shown
         Examples:
-            | email           | password    | errorMessage              |
-            | admin@admin.com | abc         | Invalid email or password |
-            | xyz@admin.com   | admin123456 | Invalid email or password |
-            | xyz@admin.com   | abc         | Invalid email or password |
-            |                 | admin123456 | Invalid email or password |
-            | admin@admin.com |             | Invalid email or password |
-            | admin@admin.com | admin123456 | Logged in successfully    |
+            | email           | password    | errorMessage               |
+            | admin@admin.com | abc         | Invalid email or password. |
+            | xyz@admin.com   | admin123456 | Invalid email or password. |
+            | xyz@admin.com   | abc         | Invalid email or password. |
+            |                 | admin123456 | Invalid email or password. |
+            | admin@admin.com |             | Invalid email or password. |
