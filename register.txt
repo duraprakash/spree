@@ -12,6 +12,7 @@ Feature: register
             | admin1 | admin1@gmail.com | admin1@123456 | admin1@123456   |
         Then the user should be navigated to the admin dashboard
 
+
     Scenario: register with already existing user
         Given the user has been registered with following user information
             | name   | email            | password      | confirmpassword |
@@ -23,3 +24,16 @@ Feature: register
             | name   | email            | password      | confirmpassword |
             | admin1 | admin1@gmail.com | admin1@123456 | admin1@123456   |
         Then error message "User already exists. Please choose another email address." should pop up on the webUI 
+
+
+    Scenario: register with invalid credentials
+        When the user tries to create new account providing following user information
+            | name   | email            | password    | confirmpassword | error-message                                 |
+            |        |                  |             |                 | Email can't be blank, Password can't be blank |
+            | admin2 |                  |             |                 | Email can't be blank, Password can't be blank |
+            |        | admin2@gmail.com |             |                 |
+            |        |                  | admin123456 |                 |
+            |        |                  | admin123456 | admin123456     |
+            |        |                  | admin123456 | admin1234567    |
+            | admin2 | admin2@gmail.com | admin123456 | admin123456     |
+        Then display error message ""
