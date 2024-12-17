@@ -4,18 +4,18 @@ Feature: login
     So that I can manage my products
 
     Background: 
-        Given user 'admin' has navigated to the admin login page
+        Given user "admin" has navigated to the admin login page
 
 
     Scenario: login with valid credentials
-        When user 'admin' logs in with following credentials
+        When user "admin" logs in with following credentials
             | email           | password    |
             | admin@admin.com | admin123456 |
-        Then user 'admin' should be navigated to admin panel dashboard
+        Then user "admin" should be navigated to admin panel dashboard
 
 
     Scenario Outline: login with invalid credentials
-        When user 'admin' tries to log in with following credentials
+        When user "admin" tries to log in with following credentials
             | email   | password   |
             | <email> | <password> |
         Then error message "<errorMessage>" should be shown
