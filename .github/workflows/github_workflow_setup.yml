@@ -1,0 +1,29 @@
+name: Welome to github workflow action
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Print a message
+      run: echo "Hello, Github Actions!"
+      shell: bash
+  
+  saygoodby:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print goodbye
+        run: echo "Good Bye"
+        shell: bash
+  
