@@ -8,7 +8,7 @@ class AddCountryPage {
         this.createCountrySelector = "//button[@type='submit']";
         this.countrySelector = "//td[text()='%s']";
         this.profileIconSelector = "//button[@id='account-button']";
-        this.adminPanelMenuSelector = "//a[@href='/admin/orders']";
+        this.adminPanelMenuSelector = "//a[text()='Admin Panel']";
 
         this.sideBarMenuItems = {
             settingsSelector: "a[href='#sidebar-settings']",
@@ -20,6 +20,11 @@ class AddCountryPage {
     async navigateToCountryPage(){
         await page.locator(this.profileIconSelector).click();
         await page.locator(this.adminPanelMenuSelector).click();
+        await page.locator(this.sideBarMenuItems.settingsSelector).click();
+        await page.locator(this.sideBarMenuItems.countryLinkSelector).click();
+    }
+
+    async navigateToCountryPageFromSettings(){
         await page.locator(this.sideBarMenuItems.settingsSelector).click();
         await page.locator(this.sideBarMenuItems.countryLinkSelector).click();
     }

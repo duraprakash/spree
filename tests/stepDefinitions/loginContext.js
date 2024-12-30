@@ -6,10 +6,10 @@ const loginPage = new LoginPage();
 
 Given('user {string} has navigated to the admin login page', async function (user) {
   await loginPage.navigateToAdminLoginPage();
-  expect(page.url()).toBe("http://localhost:3000/admin/login");
+  await expect(page.url()).toBe("http://localhost:3000/admin/login");
 });
 
-When('user {string} logs in with following credentials', async function (user, credentials) {
+When('user {string} logs in with following credentials:', async function (user, credentials) {
   credentials = credentials.hashes();
   for(const credential of credentials){
     await loginPage.login(credential.email, credential.password);
@@ -17,11 +17,11 @@ When('user {string} logs in with following credentials', async function (user, c
 });
 
 Then('user {string} should be navigated to admin panel dashboard', async function (user) {
-  await expect(page.url()).toBe("http://localhost:3000/");
+  await page.waitForURL("http://localhost:3000/", { timeout: 5000 });
   await expect(page.locator(loginPage.spreeLogoSelector)).toHaveAttribute('title', 'Spree Demo Site');
 });
 
-When('user {string} tries to log in with following credentials', async function (user, credentials) {
+When('user {string} tries to log in with following credentials:', async function (user, credentials) {
   credentials = credentials.hashes();
   for(const credential of credentials){
     await loginPage.login(credential.email, credential.password);

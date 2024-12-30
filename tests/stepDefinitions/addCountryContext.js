@@ -11,6 +11,7 @@ Given('user {string} has logged in to the admin panel with following credentials
     await loginPage.navigateToAdminLoginPage();
     credentials = credentials.hashes();
     await loginPage.login(credentials[0].email, credentials[0].password);
+    await page.waitForURL("http://localhost:3000/", { timeout: 5000 });
 });
 
 When('user {string} adds a new country with following details:', async function (user, countryDetails) {
@@ -20,8 +21,7 @@ When('user {string} adds a new country with following details:', async function 
 });
 
 Then('the country {string} should be in the countries list', async function (countryName) {
-    await page.locator(countryPage.sideBarMenuItems.settingsSelector).click();
-    await page.locator(countryPage.sideBarMenuItems.countryLinkSelector).click();
+    await countryPage.navigateToCountryPageFromSettings();
     const countrySelector = util.format(countryPage.countrySelector,countryName);
     await expect(page.locator(countrySelector)).toHaveText(countryName);
 });
