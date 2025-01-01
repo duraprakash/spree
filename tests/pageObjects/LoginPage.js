@@ -12,8 +12,9 @@ class LoginPage {
     }
 
     async login(email,password){
-        await page.type(this.emailFieldSelector, email);
-        await page.type(this.passwordFieldSelector, password);
+        await page.waitForSelector(this.emailFieldSelector);
+        await page.fill(this.emailFieldSelector, email);
+        await page.fill(this.passwordFieldSelector, password);
         await page.locator(this.loginBtnSelector).click();
     }
 }

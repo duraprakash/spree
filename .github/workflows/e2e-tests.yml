@@ -1,0 +1,63 @@
+name: Project Setup
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.0'
+          bundler-cache: true
+      
+      - name: Install ruby dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      
+      - name: Setup application
+        run: |     
+          sudo apt-get install -y expect     
+          expect <<EOF
+          spawn bin/setup
+          expect "Email: "
+          send "admin@admin.com\r"
+          expect "Password: "
+          send "admin123456\r"
+          expect "Would you like to create a new admin user? (yes/no)"
+          send "no\r"
+          expect eof
+          EOF
+
+          echo "Setup completed"
+
+      - name: Run server
+        run: bin/rails s &
+
+      - name: Wait for development server
+        run: |
+          sudo apt-get install wait-for-it -y
+          wait-for-it localhost:3000 -t 10
+
+      - name: Run e2e tests
+        run: |
+          npm install
+          npx playwright install chromium
+          npm run test:e2e tests/features/
